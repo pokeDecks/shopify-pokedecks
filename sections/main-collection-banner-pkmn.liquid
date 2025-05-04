@@ -1,0 +1,125 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{{ 'component-collection-pkmn.css' | asset_url | stylesheet_tag }}
+
+{%- assign colour_one = collection.metafields.collection.colour_one | default: '#ff0000' -%}
+{%- assign colour_two = collection.metafields.collection.colour_two | default: '#0000ff' -%}
+
+{%- style -%}
+    @media screen and (max-width: 749px) {
+      .collection-pkmn--with-image .collection-pkmn__inner {
+        padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
+      }
+    }
+
+    /* Pseudo-element used for gradient border */
+  .collection-pkmn__data-wrapper::before{
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 12px;
+    background: linear-gradient(45deg, {{colour_one}}, {{colour_two}} );
+    z-index: -2;
+  }
+{%- endstyle -%}
+
+{%- if section.settings.show_collection_image and collection.image -%}
+  <section class="section-white">
+    <div class="isolate page-width">
+      <div class="collection-pkmn__image-container-darkshadow">
+        <img
+          src="{{ collection.image | image_url: width: auto, height: auto  }}"
+        >
+      </div>
+    </div>
+  </section>
+{% endif %}
+<section class="section-light-grey">
+  <div class="isolate page-width">
+    <div class="collection-pkmn__content-wrapper">
+      <div class="collection-pkmn__text-wrapper">
+        <h1 class="collection-pkmn__title">
+          <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+          {{ collection.metafields.collection.headline.value }}
+        </h1>
+
+        {%- if section.settings.show_collection_description -%}
+          <div class="collection-pkmn__description">{{ collection.description }}</div>
+        {%- endif -%}
+      </div>
+      <div class="collection-pkmn__data-wrapper">
+        <div class="collection-data-grid">
+          <div class="collection-data-item">
+            <h2 class="collection-data-title">Set Information</h2>
+          </div>
+          <div class="collection-data-item">
+            {{ collection.title }} is the {{ collection.metafields.collection.release_order }}
+            {{ collection.metafields.custom.expansion_type.value }} expansion in the
+            {{ collection.metafields.custom.type }}: {{ collection.metafields.custom.era.value }} series.
+          </div>
+          <div class="collection-data-item"></div>
+          <div class="collection-data-cell">
+            <p class="collection-data-subtitle"><strong>Release date</strong></p>
+            <p class="collection-data-value">
+              {{ collection.metafields.collection.release_date | metafield_tag }}
+            </p>
+          </div>
+          <div class="collection-data-cell">
+            <p class="collection-data-subtitle"><strong>Japanese expansions</strong></p>
+            <p class="collection-data-value">
+              {{ collection.metafields.collection.pkmn_japanese_equivalent | metafield_tag }}
+            </p>
+          </div>
+          <div class="collection-data-item"></div>
+          <div class="collection-data-cell">
+            <p class="collection-data-subtitle"><strong>Total card count</strong></p>
+            <p class="collection-data-value">{{ collection.metafields.collection.total_cards.value }}</p>
+          </div>
+          <div class="collection-data-cell">
+            <p class="collection-data-subtitle"><strong>Secret rare cards</strong></p>
+            <p class="collection-data-value">{{ collection.metafields.collection.pkmn_secret_rares.value }}</p>
+          </div>
+          <div class="collection-data-item">
+            <p class="collection-data-subtitle"><strong>Chase cards</strong></p>
+            <p class="collection-data-value">
+              {{ collection.metafields.collection.gameplay_mechanics | metafield_tag }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-banner.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": false,
+      "label": "t:sections.main-collection-banner.settings.show_collection_image.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

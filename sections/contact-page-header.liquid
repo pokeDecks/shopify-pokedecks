@@ -1,0 +1,34 @@
+{% liquid
+  assign header_title = metaobjects.page_headers.contact.title
+  assign header_caption = metaobjects.page_headers.contact.caption
+  assign header_description = metaobjects.page_headers.contact.description
+%}
+
+<style>
+  .section-title{
+    color:white
+  }
+
+    @media screen and (max-width: 768px) {
+    .section-caption,
+    .section-title {
+      margin:0;
+    }
+  }
+</style>
+<div class="section-white">
+  <div class="isolate page-width">
+    <div class="page-description-card-dark">
+      <h2 class="section-caption">{{ header_caption }}</h2>
+      <h1 class="section-title">{{ header_title }}</h1>
+      <p class="section-subtext">{{ header_description }}</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "page header",
+  "settings": []
+}
+{% endschema %}

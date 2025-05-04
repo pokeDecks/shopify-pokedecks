@@ -1,0 +1,71 @@
+{{ 'statement-cards.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign section_title = metaobjects.section_content['brand-usp'].title
+  assign section_caption = metaobjects.section_content['brand-usp'].caption
+  assign section_description = metaobjects.section_content['brand-usp'].description
+  assign card_title_1 = metaobjects.selling_points.pricing.title
+  assign card_description_1 = metaobjects.selling_points.pricing.description
+  assign card_title_2 = metaobjects.selling_points['pre-orders'].title
+  assign card_description_2 = metaobjects.selling_points['pre-orders'].description
+  assign card_title_3 = metaobjects.selling_points.shipping.title
+  assign card_description_3 = metaobjects.selling_points.shipping.description
+%}
+
+<section class="section-white">
+  <div class="isolate page-width">
+    <div class="section-heading">
+      <h2 class="section-caption">{{ section_caption }}</h2>
+      <h1 class="section-title">{{ section_title }}</h1>
+      <p class="section-subtext">{{ section_description }}</p>
+    </div>
+    <div class="card-row">
+      <!-- Card one -->
+      <div class="card-container">
+        <div class="card">
+          <div class="front-content">
+            <p class="card-title">{{ card_title_1 }}</p>
+          </div>
+          <div class="content">
+            <p>
+              {{ card_description_1 }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Card two -->
+      <div class="card-container">
+        <div class="card">
+          <div class="front-content">
+            <p class="card-title">{{ card_title_2 }}</p>
+          </div>
+          <div class="content">
+            <p>
+              {{ card_description_2 }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Card three -->
+      <div class="card-container">
+        <div class="card">
+          <div class="front-content">
+            <p class="card-title">{{ card_title_3 }}</p>
+          </div>
+          <div class="content">
+            <p>
+              {{ card_description_3 }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand statements",
+  "settings": []
+}
+{% endschema %}

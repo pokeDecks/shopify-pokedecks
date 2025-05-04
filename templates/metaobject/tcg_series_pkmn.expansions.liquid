@@ -1,0 +1,296 @@
+{{ 'component-collection-pkmn.css' | asset_url | stylesheet_tag }}
+
+{% assign expansions_with_dates = '' %}
+{% assign series_handle = request.path | split: '/' | last %}
+{% assign series = metaobjects.tcg_series_pkmn[series_handle] %}
+{% assign expansion_list = metaobjects.tcg_expansions_pkmn.values %}
+{% assign main_expansions_list = series.main_expansions | split: ',' %}
+{% assign main_expansions_count = main_expansions_list.size %}
+{% assign special_expansions_list = series.special_expansions | split: ',' %}
+{% assign special_expansions_count = special_expansions_list.size %}
+
+<!-- Build sortable string array (release_date|expansion_name) -->
+{% for expansion in expansion_list %}
+  {% if expansion.series_name == series.name %}
+    {% assign expansion_entry = expansion.release_date | append: '|' | append: expansion.name %}
+    {% assign expansions_with_dates = expansions_with_dates | append: ',' | append: expansion_entry %}
+  {% endif %}
+{% endfor %}
+
+<!-- Remove leading comma -->
+{% assign expansions_with_dates = expansions_with_dates | remove_first: ',' %}
+
+<!-- Sort and reverse the array -->
+{% assign sorted_expansions = expansions_with_dates | split: ',' | sort | reverse %}
+
+<script>
+  function toggleDropdown(id) {
+    const dropdown = document.getElementById(id);
+    dropdown.classList.toggle('hidden');
+  }
+</script>
+
+<style>
+        .flex-row {
+          display: flex;
+          justify-content: center;
+          margin-left: 20px;
+          margin-right: 20px;
+          max-width: var(--page-width);
+          width: 100%;
+        }
+
+          .flex-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+        gap: 20px;
+        padding: 20px;
+        justify-content: center;
+        max-width: var(--page-width);
+        width: 100%;
+      }
+
+
+
+      .collection-pkmn__data-wrapper::before{
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        right: -6px;
+        bottom: -6px;
+        border-radius: 12px;
+        background: linear-gradient(45deg, {{series.colour_one}}, {{series.colour_two}} );
+        z-index: -2;
+      }
+
+
+
+        .tcg-card {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          border-radius: 10px;
+          transition: all 0.5s ease;
+          box-shadow: none;
+          margin: 20px;
+          width: fit-content;
+          height: fit-content;
+        }
+
+
+        .tcg-card::before {
+          content: '';
+          position: absolute;
+          inset: -5px;
+          border-radius: 10px;
+          background: linear-gradient(-45deg, #2c3a57 0%, #8c9eb1 100%);
+          z-index: -1;
+          transition: transform 0.6s ease-in-out, background 0.6s ease-in-out;
+          opacity: 1;
+        }
+
+        .tcg-card:hover,
+        .tcg-card:focus-within {
+          transform: scale(1.05);
+        }
+
+        .tcg-card:hover::before,
+        .tcg-card:focus-within::before {
+          transform: rotate(90deg);
+          background: linear-gradient(-45deg, {{ series.colour_one }} 0%, {{ series.colour_two }} 100%);
+        }
+
+        .tcg-card:hover::after,
+        .tcg-card:focus-within::after {
+          opacity: 1;
+          filter: blur(15px);
+        }
+
+        .expansion-image {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: fit-content;
+          height: fit-content;
+          max-width: 100%;
+          max-height: 100%;
+        }
+
+        .card-logo {
+          object-fit: contain;
+          width: 100%;
+          height: 100%;
+          border-radius: 15px;
+        }
+
+        .main-expansions-container {
+      display: flex;
+      gap: 1rem; /* Adjust spacing between columns */
+    }
+
+
+    .expansion-column {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+        @media (max-width: 768px) {
+
+          .flex-grid {
+          grid-template-columns: repeat(1, 1fr);
+        }
+
+          .tcg-card {
+            flex: 1 1 100%;
+            max-width: 90%;
+          }
+
+          .page-description-card {
+            max-width: 90%;
+            padding: 5px;
+          }
+
+          .heading-page {
+            font-size: 24px;
+            padding: 5px;
+          }
+        }
+
+    /* DROPDOWN START */
+    .expansion-dropdown {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .dropdown-toggle {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #2c3a57;
+    color: #ffffff;
+    border: none;
+    text-align: left;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .dropdown-toggle:hover {
+    background: linear-gradient(-45deg, {{ series.colour_one }} 0%, {{ series.colour_two }} 100%);
+  }
+
+  .dropdown-list {
+    list-style: none;
+    padding: 10px 15px;
+    margin: 0;
+    background-color: #8c9eb1;
+    border: 1px solid #0a2540;
+    border-radius: 5px;
+  }
+
+  .dropdown-list li {
+    padding: 5px 0;
+    text-align: left;
+  }
+
+  /* Hidden class */
+  .hidden {
+    display: none;
+  }
+
+  /* Responsive */
+  @media screen and (max-width: 768px) {
+    .expansion-dropdown {
+      margin-bottom: 15px;
+    }
+  }
+  /* DROPDOWN END */
+
+  /* Medium screens (tablets) - 2 tiles per row */
+      @media (max-width: 1024px, min-width: 769px) {
+        .flex-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+</style>
+
+<!-- Section: Series image -->
+<section class="section-white">
+  <div class="isolate page-width">
+    <div class="collection-pkmn__image-container-darkshadow">
+      <img
+        src="{{ series.logo | image_url: width: auto , height: auto }}"
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Section: Page description -->
+<section class="section-light-grey">
+  <div class="isolate page-width">
+    <div class="collection-pkmn__data-wrapper">
+      <div class="collection-data-grid">
+        <div class="collection-data-item">
+          <h1 class="collection-pkmn__title-light">{{ series.name }}</h1>
+          <p>{{ series.description }}</p>
+          <div class="collection-data-item">
+            <!-- Main Series Expansions Dropdown -->
+            {% if series.main_expansions != blank %}
+              <div class="expansion-dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown('main-expansions')">
+                  {{ main_expansions_count }} Main Series Expansions
+                </button>
+                <ul id="main-expansions" class="dropdown-list hidden">
+                  {{ series.main_expansions | metafield_tag }}
+                </ul>
+              </div>
+            {% endif %}
+
+            <!-- Special Expansions Dropdown -->
+            {% if series.special_expansions != blank %}
+              <div class="expansion-dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown('special-expansions')">
+                  {{ special_expansions_count }} Special Expansions
+                </button>
+                <ul id="special-expansions" class="dropdown-list hidden">
+                  {{ series.special_expansions | metafield_tag }}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Sorted Expansion Tiles -->
+<section class="flex-page">
+  <div class="flex-row">
+    <div class="flex-grid">
+      {% for sorted_expansion in sorted_expansions %}
+        {% assign parts = sorted_expansion | split: '|' %}
+        {% assign expansion_name = parts[1] %}
+
+        {% for expansion in expansion_list %}
+          {% if expansion.name == expansion_name %}
+            <a href="/collections/{{ expansion.name | handle }}" class="tcg-card-link">
+              <div class="tcg-card">
+                <div class="expansion-image">
+                  <img
+                    class="card-logo"
+                    src="{{ expansion.logo | image_url: width: '500', height: '500' }}"
+                    alt="{{ expansion.name }} Logo"
+                  >
+                </div>
+              </div>
+            </a>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

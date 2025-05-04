@@ -1,0 +1,54 @@
+{% liquid
+  assign products_to_display = collections['upcoming-products'].products
+  assign section_title = metaobjects.section_content['upcoming-products'].title
+  assign section_caption = metaobjects.section_content['upcoming-products'].caption
+  assign section_description = metaobjects.section_content['upcoming-products'].description
+%}
+
+<Section class="section-white">
+  <div class="isolate page-width">
+    <div class="section-heading">
+      <h2 class="section-caption">{{ section_caption }}</h2>
+      <h1 class="section-title-dark">{{ section_title }}</h1>
+      <p class="section-subtext-dark">{{ section_description }}</p>
+      <!-- Link to release calendar -->
+      <div class="animated-button-wrapper">
+        <a href="/collections/upcoming-products" class="animated-button">Shop Now</a>
+      </div>
+    </div>
+
+    <!-- Product List -->
+    <div class="flex-container-tiles">
+      {% for product in products_to_display limit: 3 %}
+        <!-- Render product card -->
+        <div class="card-with-shadow">
+          <h2>{{ product.title }}</h2>
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}">
+            <div class="card-info-grey-box">
+              <div class="flex-row-center">
+                <p><strong>Release Date</strong></p>
+              </div>
+              {% if product.metafields.product.release_date %}
+                <div class="flex-row-center">
+                  <p>{{ product.metafields.product.release_date | metafield_tag }}</p>
+                </div>
+              {% else %}
+                <div class="flex-row-center">
+                  <p>TBC</p>
+                </div>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</Section>
+
+{% schema %}
+{
+  "name": "Release Calendar",
+  "settings": []
+}
+{% endschema %}

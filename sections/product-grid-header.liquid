@@ -1,0 +1,24 @@
+{% assign secondary_handle = collection.handle | append: '-associated-products' %}
+{% assign secondary_collection = collections[secondary_handle] %}
+
+{% if secondary_collection and secondary_collection.products.size > 0 %}
+  <Section class="section-medium-grey">
+    <div class="isolate page-width">
+      <div class="section-heading">
+        <h2 class="section-caption">Recommended Products</h2>
+        <h1 class="section-title-light">Explore more {{ collection.title }} options</h1>
+        <p class="section-subtext-light">
+          Each of these products includes at least one {{ collection.title }} booster pack! View each product for a full
+          list of contents.
+        </p>
+      </div>
+    </div>
+  </Section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "product-grid-header",
+  "settings": []
+}
+{% endschema %}

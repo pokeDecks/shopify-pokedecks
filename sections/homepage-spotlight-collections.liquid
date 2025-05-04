@@ -1,0 +1,146 @@
+{{ 'spotlight-collection.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign primary_collection = metaobjects.featured_collections['primary-collection']
+  assign primary_collection_url = primary_collection.collection_url
+  assign secondary_collection = metaobjects.featured_collections['secondary-collection']
+  assign secondary_collection_url = secondary_collection.collection_url
+  assign tertiary_collection = metaobjects.featured_collections['tertiary-collection']
+  assign tertiary_collection_url = tertiary_collection.collection_url
+  assign section_title = metaobjects.section_content['product-spotlight'].title
+  assign section_caption = metaobjects.section_content['product-spotlight'].caption
+  assign section_description = metaobjects.section_content['product-spotlight'].description
+%}
+
+<section class="section-dark">
+  <div class="isolate page-width">
+    <div class="section-heading">
+      <h2 class="section-caption">{{ section_caption }}</h2>
+      <h1 class="section-title-light">{{ section_title }}</h1>
+      <p class="section-subtext-light">{{ section_description }}</p>
+    </div>
+    <!-- Primary Collection -->
+    <section class="spotlight-section status-{{ primary_collection.status.value | handle }} ">
+      <div class="status-banner">
+        <span class="status-value">{{ primary_collection.status.value }}</span>
+      </div>
+      <div class="spotlight-wrapper">
+        <!-- Full-width heading row -->
+        <div class="spotlight-heading-row">
+          <h2 class="spotlight-heading">{{ primary_collection.heading.value }}</h2>
+        </div>
+
+        <!-- Two-column row -->
+        <div class="spotlight-content-row">
+          <!-- Image Column -->
+          <div class="spotlight-column first-column">
+            <div class="spotlight-image-wrapper">
+              <img
+                src="{{ primary_collection.image | image_url: width: auto, height: auto }}"
+                alt="Expansion Image"
+                class="spotlight-image"
+              >
+            </div>
+          </div>
+
+          <!-- Text Column -->
+          <div class="spotlight-column last-column">
+            <div class="spotlight-text">
+              <p class="spotlight-description">
+                {{ primary_collection.description.value }}
+              </p>
+            </div>
+            <div class="spotlight-button-wrapper">
+              <a href="{{ primary_collection_url }}" class="spotlight-button">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Secondary Collection -->
+    <section class="spotlight-section status-{{ secondary_collection.status.value | handle }} ">
+      <div class="status-banner">
+        <span class="status-value">{{ secondary_collection.status.value }}</span>
+      </div>
+      <div class="spotlight-wrapper">
+        <!-- Full-width heading row -->
+        <div class="spotlight-heading-row">
+          <h2 class="spotlight-heading">{{ secondary_collection.heading.value }}</h2>
+        </div>
+
+        <!-- Two-column row -->
+        <div class="spotlight-content-row">
+          <!-- Image Column -->
+          <div class="spotlight-column first-column">
+            <div class="spotlight-image-wrapper">
+              <img
+                src="{{ secondary_collection.image | image_url: width: auto, height: auto }}"
+                alt="Expansion Image"
+                class="spotlight-image"
+              >
+            </div>
+          </div>
+
+          <!-- Text Column -->
+          <div class="spotlight-column last-column">
+            <div class="spotlight-text">
+              <p class="spotlight-description">
+                {{ secondary_collection.description.value }}
+              </p>
+            </div>
+            <div class="spotlight-button-wrapper">
+              <a href="{{ secondary_collection_url }}" class="spotlight-button">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tertiary collection -->
+    <section class="spotlight-section status-{{ tertiary_collection.status.value | handle }} ">
+      <div class="status-banner">
+        <span class="status-value">{{ tertiary_collection.status.value }}</span>
+      </div>
+      <div class="spotlight-wrapper">
+        <!-- Full-width heading row -->
+        <div class="spotlight-heading-row">
+          <h2 class="spotlight-heading">{{ tertiary_collection.heading.value }}</h2>
+        </div>
+
+        <!-- Two-column row -->
+        <div class="spotlight-content-row">
+          <!-- Image Column -->
+          <div class="spotlight-column first-column">
+            <div class="spotlight-image-wrapper">
+              <img
+                src="{{ tertiary_collection.image | image_url: width: auto, height: auto }}"
+                alt="Expansion Image"
+                class="spotlight-image"
+              >
+            </div>
+          </div>
+
+          <!-- Text Column -->
+          <div class="spotlight-column last-column">
+            <div class="spotlight-text">
+              <p class="spotlight-description">
+                {{ tertiary_collection.description.value }}
+              </p>
+            </div>
+            <div class="spotlight-button-wrapper">
+              <a href="{{ tertiary_collection_url }}" class="spotlight-button">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection spotlight",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,238 @@
+.collection-pkmn--with-image {
+  display: flex;
+  justify-content: center;
+}
+
+.collection-pkmn__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.collection-pkmn--with-image .collection-pkmn__inner {
+  margin-bottom: 0;
+  padding-bottom: 2rem;
+}
+
+.collection-pkmn--with-image .collection-pkmn__inner {
+  padding-bottom: 0;
+}
+
+.collection-pkmn__text-wrapper {
+  flex-basis: 100%;
+}
+
+.collection-pkmn__inner {
+  align-items: center;
+  padding-bottom: 0;
+}
+
+.collection-pkmn__title {
+  margin: 2.5rem 0;
+}
+
+.collection-pkmn__title + .collection-pkmn__description {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  line-height: calc(1 + 0.5 / var(--font-body-scale));
+}
+
+.collection-pkmn__image-container-darkshadow {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.collection-pkmn__image-container-lightshadow {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: 6px 6px 20px rgb(255, 255, 255), -6px -6px 20px rgb(60, 60, 60);
+  overflow: hidden;
+}
+
+.collection-pkmn__image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.collection-pkmn__description {
+  max-width: 100%;
+}
+
+.collection-pkmn__title {
+  margin: 0;
+}
+
+.collection-pkmn__title-light {
+  margin: 0;
+  color: #ffffff;
+}
+
+.collection-pkmn__content-wrapper {
+  grid-column: 1 / -1;
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  gap: 20px;
+  width: 100%;
+}
+
+.collection-pkmn__text-wrapper,
+.collection-pkmn__data-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.collection-pkmn__text-wrapper > *,
+.collection-pkmn__data-wrapper > * {
+  flex-grow: 1;
+}
+
+.collection-pkmn__text-wrapper {
+  grid-column: 1;
+}
+
+.collection-pkmn__data-wrapper {
+  grid-column: 2;
+  position: relative;
+  padding: 10px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #ffffff;
+  z-index: -1;
+}
+
+/* Pseudo-element used for gradient border */
+.collection-pkmn__data-wrapper::before {
+  content: "";
+  position: absolute;
+  border-radius: 12px;
+  z-index: -2;
+}
+
+.collection-pkmn__data-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 10px;
+  background: #0a2540;
+  z-index: -1;
+}
+
+.collection-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 1rem;
+}
+
+.collection-data-title {
+  text-align: center;
+  margin: 0;
+  color: #ffffff;
+}
+
+.collection-data-value {
+  margin: 0;
+}
+
+/* data item spans both columns */
+.collection-data-item {
+  grid-column: 1 / -1;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.collection-data-item-styled {
+  grid-column: 1 / -1;
+  border-radius: 10px;
+  text-align: center;
+  border-radius: 10px;
+  background: #2c3a57;
+}
+
+/* data cell occupies one column */
+.collection-data-cell {
+  grid-column: auto;
+  border-radius: 10px;
+  background: #2c3a57;
+  padding: 5px;
+  text-align: center;
+}
+
+.collection-data-subtitle {
+  margin: 2px;
+}
+
+.collection-data-cell-value {
+  margin: 2px;
+}
+
+.metafield-single_line_text_field-array {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Responsive design for mobile devices */
+@media screen and (max-width: 768px) {
+  .collection-pkmn.collection-pkmn--with-image {
+    padding: calc(4rem + var(--page-width-margin)) 0
+      calc(4rem + var(--page-width-margin));
+    overflow: hidden;
+  }
+
+  .collection-pkmn__title + .collection-pkmn__description {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .collection-pkmn {
+    padding: 0;
+  }
+
+  .collection-pkmn__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .collection-pkmn__image-container {
+    height: 20rem;
+    order: 1;
+    width: 100%;
+  }
+
+  .collection-pkmn__image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .collection-pkmn__content-wrapper {
+    display: flex;
+    flex-direction: column;
+    order: 2;
+    width: 100%;
+    gap: 5px;
+  }
+
+  .collection-pkmn__text-wrapper,
+  .collection-pkmn__data-wrapper {
+    width: 100%;
+  }
+}

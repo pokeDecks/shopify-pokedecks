@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "collection-page-image": {
+      "type": "collection-page-image",
+      "settings": {}
+    },
+    "collection-page-banner": {
+      "type": "collection-page-banner",
+      "settings": {}
+    },
+    "collection-page-list": {
+      "type": "collection-page-list",
+      "settings": {}
+    }
+  },
+  "order": [
+    "collection-page-image",
+    "collection-page-banner",
+    "collection-page-list"
+  ]
+}

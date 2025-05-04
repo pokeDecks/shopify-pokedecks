@@ -1,0 +1,109 @@
+{% liquid
+  assign homepage_title = metaobjects.section_content['homepage-welcome'].title
+  assign homepage_message = metaobjects.section_content['homepage-welcome'].description.value
+%}
+
+<style>
+  .section-light-grey {
+    padding: 0;
+  }
+  .flex-row-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .homepage-welcome {
+    flex: 0 1 40%;
+    min-width: 280px;
+    box-sizing: border-box;
+  }
+
+  .homepage-statement {
+    box-sizing: border-box;
+  }
+
+  .homepage-heading {
+    font-size: clamp(2.5rem, 6vw, 8rem);
+    text-align: left;
+    font-weight: 600;
+    white-space: normal;
+    word-break: keep-all;
+
+  }
+
+  .homepage-message {
+    font-size: 2rem;
+    text-align: left;
+  }
+
+  .homepage-image-container {
+    flex: 0 1 60%;
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .homepage-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 768px) {
+    .flex-row-container {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .homepage-welcome,
+    .homepage-image-container {
+      flex: 1 1 100%;
+    }
+
+    .homepage-heading,
+    .homepage-message {
+      text-align: center;
+    }
+  }
+</style>
+
+<section class="section-light-grey">
+  <div class="isolate page-width">
+    <div class="flex-row-container">
+      <!-- Column 1 -->
+      <div class="homepage-welcome">
+        <!-- Homepage brand statement -->
+        <div class="homepage-statement">
+          <div>
+            <h1 class="homepage-heading">{{ homepage_title }}</h1>
+          </div>
+          <div>
+            <p class="homepage-message">
+              {{ homepage_message }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Column 2 -->
+      <div class="homepage-image-container">
+        <img
+          class="homepage-image"
+          src="https://cdn.shopify.com/s/files/1/0903/9629/5493/files/PokeDecks-Logo-CardsLight.png?v=1744323717"
+          alt="Pokedecks logo"
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "homepage intro",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,33 @@
+{% liquid
+  assign header_title = metaobjects.page_headers.faq.title
+  assign header_caption = metaobjects.page_headers.faq.caption
+  assign header_description = metaobjects.page_headers.faq.description
+%}
+
+<style>
+  .section-title{
+    color:white
+  }
+
+    @media screen and (max-width: 768px) {
+    .section-caption,
+    .section-title {
+      margin:0;
+    }
+  }
+</style>
+<div class="section-white">
+  <div class="isolate page-width">
+    <div class="page-description-card-dark">
+      <h2 class="section-caption">{{ header_caption }}</h2>
+      <h1 class="section-title">{{ header_title }}</h1>
+      <p class="section-subtext">{{ header_description }}</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "faq page header"
+}
+{% endschema %}

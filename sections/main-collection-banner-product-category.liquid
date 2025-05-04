@@ -1,0 +1,63 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{{ 'component-collection-pkmn.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign handle = collection.handle
+  assign page_data = metaobjects.page_headers[handle]
+  assign header_title = page_data.title
+  assign header_caption = page_data.caption
+  assign header_description = page_data.description
+%}
+
+{%- style -%}
+  .page-title {
+    color: #ffffff;
+    margin:8px;
+  }
+
+  .collection-pkmn__image-container-darkshadow {
+    max-width: 100%;
+  }
+
+  .page-description-card-dark{
+    max-width: 100%;
+    margin:0;
+  }
+
+  .collection
+    @media screen and (max-width: 749px) {
+      .collection-pkmn--with-image .collection-pkmn__inner {
+        padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
+      }
+    }
+{%- endstyle -%}
+
+<!-- Section 1: Collection image -->
+{% if collection.img %}
+  <section class="section-white">
+    <div class="isolate page-width">
+      <div class="collection-pkmn__image-container-darkshadow">
+        <img
+          src="{{ collection.image | image_url: width: auto, height: auto  }}"
+        >
+      </div>
+    </div>
+  </section>
+{% endif %}
+<!-- Section: Collection description -->
+<section class="section-white">
+  <div class="isolate page-width">
+    <div class="page-description-card-dark">
+      <h2 class="section-caption">{{ header_caption }}</h2>
+      <h1 class="page-title">{{ header_title }}</h1>
+      <p class="collection-description">{{ header_description }}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.main-collection-banner.name",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,157 @@
+<!-- Section: Page description -->
+{{ 'component-collection-pkmn.css' | asset_url | stylesheet_tag }}
+{% assign series_handle = request.path | split: '/' | last %}
+{% assign series = metaobjects.tcg_series_pkmn[series_handle] %}
+{% assign main_expansions_list = series.main_expansions | split: ',' %}
+{% assign main_expansions_count = main_expansions_list.size %}
+{% assign special_expansions_list = series.special_expansions | split: ',' %}
+{% assign special_expansions_count = special_expansions_list.size %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const accordions = document.querySelectorAll(".js-accordion");
+
+    accordions.forEach(accordion => {
+      const triggers = accordion.querySelectorAll(".js-accordion-trigger");
+
+      triggers.forEach(trigger => {
+        trigger.addEventListener("click", () => {
+          const item = trigger.closest(".accordian-item");
+          const isOpen = item.classList.contains("open");
+
+          accordion.querySelectorAll(".accordian-item").forEach(i => i.classList.remove("open"));
+
+          if (!isOpen) {
+            item.classList.add("open");
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+        .collection-pkmn__data-wrapper::before{
+        content: "";
+        position: absolute;
+        top: -6px;
+        left: -6px;
+        right: -6px;
+        bottom: -6px;
+        border-radius: 12px;
+        background: linear-gradient(45deg, {{series.colour_one}}, {{series.colour_two}} );
+        z-index: -2;
+      }
+
+  .accordian-item {
+    border: 2px solid #8c9eb1;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .accordian-header {
+    width: 100%;
+    padding: 1.5rem;
+    font-size: 2rem;
+    font-weight: 600;
+    background: #2c3a57;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+    color: #ffffff;
+  }
+
+  .accordian-header:hover {
+    background: linear-gradient(-45deg, #603ec8 0%, #d14391 100%);
+  }
+
+  .accordian-header .icon {
+    font-size: 2rem;
+    transition: transform 0.3s ease;
+  }
+
+  .accordian-item.open .accordian-header .icon {
+    transform: rotate(45deg);
+  }
+
+  .accordian-reveal {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    background: #8c9eb1;
+  }
+
+  .accordian-item.open .accordian-reveal {
+    max-height: 500px;
+    }
+
+  .left-align-list {
+    list-style: none;
+    padding: 10px 15px;
+    margin: 0;
+  }
+
+  .left-align-list li {
+    padding: 0;
+    text-align: left;
+  }
+</style>
+
+<section class="section-light-grey">
+  <div class="isolate page-width">
+    <div class="collection-pkmn__data-wrapper">
+      <div class="collection-data-grid">
+        <div class="collection-data-item">
+          <h1 class="collection-pkmn__title-light">{{ series.name }}</h1>
+          <p>{{ series.description }}</p>
+          <div class="collection-data-item">
+            <!-- Main Series Expansions Accordion -->
+            <div class="accordian-list js-accordion">
+              {% if series.main_expansions != blank %}
+                <div class="accordian-item">
+                  <button class="accordian-header js-accordion-trigger">
+                    <span>{{ main_expansions_count }} Main Series Expansions</span>
+                    <span class="icon">+</span>
+                  </button>
+                  <div class="accordian-reveal js-accordion-content">
+                    <ul class="left-align-list">
+                      {{ series.main_expansions | metafield_tag }}
+                    </ul>
+                  </div>
+                </div>
+              {% endif %}
+
+              <!-- Special Expansions Accordion -->
+              {% if series.special_expansions != blank %}
+                <div class="accordian-item">
+                  <button class="accordian-header js-accordion-trigger">
+                    <span>{{ special_expansions_count }} Special Expansions</span>
+                    <span class="icon">+</span>
+                  </button>
+                  <div class="accordian-reveal js-accordion-content">
+                    <ul class="left-align-list">
+                      {{ series.special_expansions | metafield_tag }}
+                    </ul>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection page banner",
+  "settings": []
+}
+{% endschema %}

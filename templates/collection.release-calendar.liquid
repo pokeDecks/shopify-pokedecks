@@ -1,0 +1,116 @@
+{% liquid
+  assign header_title = metaobjects.page_headers['release-calendar'].title
+  assign header_caption = metaobjects.page_headers['release-calendar'].caption
+  assign header_description = metaobjects.page_headers['release-calendar'].description
+%}
+
+<style>
+  .page-title {
+    color: #ffffff;
+  }
+
+  @media screen and (max-width: 768px) {
+    .section-caption,
+    .section-title {
+      margin:0;
+    }
+  }
+</style>
+
+{% comment %} List products in the upcoming products collection {% endcomment %}
+
+{% if collection and collection.products.size > 0 %}
+  <!-- First section: Page description with white background -->
+
+  <div class="section-white">
+    <div class="isolate page-width">
+      <div class="page-description-card-dark">
+        <h2 class="section-caption">{{ header_caption }}</h2>
+        <h1 class="page-title">{{ header_title }}</h1>
+        <p class="collection-description">{{ header_description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next section: Product containers with light grey background -->
+  <div class="section-light-grey">
+    <div class="isolate page-width">
+      <div class="flex-container-tiles">
+        {% for product in collection.products %}
+          <div class="card-with-shadow">
+            <h2>{{ product.title }}</h2>
+            {% comment %} Product image{% endcomment %}
+            <a href="{{ product.url }}">
+              <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}">
+              <div class="card-info-grey-box">
+                {% comment %} Display release date if available {% endcomment %}
+                <div class="flex-row-center">
+                  <p><strong>Release Date</strong></p>
+                </div>
+                {% if product.metafields.product.release_date %}
+                  <div class="flex-row-center">
+                    <p>{{ product.metafields.product.release_date | metafield_tag }}</p>
+                  </div>
+                {% else %}
+                  <div class="flex-row-center">
+                    <p>TBC</p>
+                  </div>
+                {% endif %}
+
+                {% comment %} Estimated shipping date {% endcomment %}
+                <div class="flex-row-center">
+                  <p><strong>Estimated Shipping</strong></p>
+                </div>
+                {% if product.metafields.custom.preorder_estimated_shipping_date %}
+                  <div class="flex-row-center">
+                    <p>{{ product.metafields.custom.preorder_estimated_shipping_date | metafield_tag }}</p>
+                  </div>
+                {% else %}
+                  <div class="flex-row-center">
+                    <p>TBC</p>
+                  </div>
+                {% endif %}
+              </div>
+
+              {% comment %} Delay status{% endcomment %}
+              {% if product.metafields.custom.delayed %}
+                <div class="alert-warning-message">
+                  <div class="flex-row-center">
+                    <svg
+                      class="alert-success-svg"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="rgb(250 204 21)"
+                      aria-hidden="true"
+                    >
+                      <path clip-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" fill-rule="evenodd"></path>
+                    </svg>
+                    <p class="alert-warning-heading"><strong>Product delayed</strong></p>
+                  </div>
+                </div>
+              {% else %}
+                <div class="alert-success-message">
+                  <div class="flex-row-center">
+                    <svg
+                      class="alert-success-svg"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="rgb(74 222 128)"
+                      aria-hidden="true"
+                    >
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <p class="alert-success-heading"><strong>On Schedule</strong></p>
+                  </div>
+                </div>
+              {% endif %}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% else %}
+  <p>No upcoming releases at this time.</p>
+{% endif %}

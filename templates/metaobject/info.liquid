@@ -1,0 +1,8 @@
+{% assign faq_list = metaobjects.faq_content.values %}
+
+<div>
+  {% for faq in faq_list %}
+    <p>{{ faq.question }}</p>
+    <p>{{ faq.answer }}</p>
+  {% endfor %}
+</div>
